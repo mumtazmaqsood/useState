@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+useState()
+    useState use to maintain component state and state can be transferred to child components as well.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Declare & initialize
+        let [count, setCount] = useState(1)
+ 
+    This declaration should be inside the component, useState return in array, in above example count variable takes 1 and setCount is a function which uses to update / change the state, component only uses this function to change the state of the component. Through props this state & function can be transferred to child components, if child component get its function as well then it has the ability to change the value but in reality when child use setCount function, its request goes to parent component and then parent component change the state of the count and re-render the state of count in all components where count has used.
 
-## Available Scripts
+        function App() {
+        let [count, setCount] = useState(1)
+        let [lit, setLit] = useState(true)
+         return (
+            <div class={lit?"main":"test"}>
+            <h1>Hello!</h1>
+            <Hi value={count}/>
+            <button onClick= { ()=> {setCount(++count)}}>Change state</button>
+            <br />
+            <button onClick= { ()=> {setLit(!lit)}}>Light Button</button>
+            <br />
+            </div>
+        );
+        }
 
-In the project directory, you can run:
 
-### `npm start`
+    In above example two states used 
+        let [count, setCount] = useState(1)
+        let [lit, setLit] = useState(true)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    first useState intialize state is 1 and its stores in count , and it has used 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+        <button onClick= { ()=> {setCount(++count)}}>Change state</button>
 
-### `npm test`
+    On button click event, setCount function used to change the state, in above example it is adding 1, here is another component 
+        <Hi value={count}/>
+    is also used , count state change here in parent component but it is displaying in child component “Hi”
+here is child component
+        function Hi({value}){
+            return(
+                <div>
+                    Child1 Component value: {value}   
+                    {/*<button onClick={()=> {fun(++value)}}>change state</button>*/}
+                    <Hello add = {value + 5} />
+                </div>
+            );
+        }
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    Initial state has passed to Hi component and this component is displaying this state but this state is changing in parent component on button click event  
+    Inside Hi component, one another Hello component used, that is also using parent state and adding 5 into that value and displaying this value in Hello component 
 
-### `npm run build`
+        function Hello({add}){
+            return(
+                <div>
+                    Child2 Component value:  {add}
+                </div>
+            );
+        }
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    So hierarchy is 
+	App component  Hi Component  Hello Component      
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    useState hook use in App component and also responsible to change the value but value is displaying in Hi & Hello components 
